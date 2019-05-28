@@ -22,6 +22,7 @@ contract Fomo3D {
         _;
     }
     
+    
     function kickStart() 
       external 
       inState(State.INACTIVE) {
@@ -34,10 +35,10 @@ contract Fomo3D {
       payable 
       inState(State.ACTIVE) {
         if(now > end || now > hardEnd) {
-          msg.sender.transfer(msg.value);
-          _distribute();
-          _createRound();
-          return;
+            msg.sender.transfer(msg.value);
+            _distribute();
+            _createRound();
+            return;
         }
         
         //Keys
@@ -46,12 +47,12 @@ contract Fomo3D {
         totalKeys += keyCount;
         bool alreadyAdded = false;
         for(uint i = 0; i < keyHolders.length; i++) {
-          if(keyHolders[i] == msg.sender) {
-              alreadyAdded = true;
-          }
+            if(keyHolders[i] == msg.sender) {
+                alreadyAdded = true;
+            }
         }
         if(alreadyAdded == false) {
-          keyHolders.push(msg.sender);
+            keyHolders.push(msg.sender);
         }
         
         //Other
@@ -68,16 +69,16 @@ contract Fomo3D {
         uint netPot = pot * (100 - houseFee) / 100;
         king.transfer((netPot * 50) / 100);
         for(uint i = 0; i < keyHolders.length; i++) {
-          address payable keyHolder = keyHolders[i];
-          if(keyHolder != king) {
-            (keyHolder).transfer(((netPot * 50) / 100) * (keys[keyHolder] / totalKeys));
-          }
+            address payable keyHolder = keyHolders[i];
+            if(keyHolder != king) {
+                (keyHolder).transfer(((netPot * 50) / 100) * (keys[keyHolder] / totalKeys));
+            }
         }
     }
         
     function _createRound() internal {
         for(uint i = 0; i < keyHolders.length; i++) {
-          delete keys[keyHolders[i]];
+            delete keys[keyHolders[i]];
         }
         delete keyHolders;
         totalKeys = 0;
