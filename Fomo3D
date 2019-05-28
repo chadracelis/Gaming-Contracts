@@ -58,11 +58,24 @@ contract Fomo3D {
         //Other
         pot += msg.value;
         end = end + 30 > hardEnd ? hardEnd : end + 30;
+        // If end + 30 is greater than hardEnd, then hardEnd = end. Otherwise, end + 30 = end
     }
     
     function getKeyPrice() view public returns(uint) {
         uint periodCount = (now - start) / 30;
         return initialKeyPrice + periodCount * 0.01 ether;
+    }
+    
+    function _createRound() internal {
+        for(uint i = 0; i < keyHolders.length; i++) {
+            delete keys[keyHolders[i]];
+        }
+        delete keyHolders;
+        totalKeys = 0;
+        start = now;
+        end = now + 30;
+        hardEnd = now + 86400;
+        initialKeyPrice = 1 ether;
     }
     
     function _distribute() internal {
@@ -74,18 +87,6 @@ contract Fomo3D {
                 (keyHolder).transfer(((netPot * 50) / 100) * (keys[keyHolder] / totalKeys));
             }
         }
-    }
-        
-    function _createRound() internal {
-        for(uint i = 0; i < keyHolders.length; i++) {
-            delete keys[keyHolders[i]];
-        }
-        delete keyHolders;
-        totalKeys = 0;
-        start = now;
-        end = now + 30;
-        hardEnd = now + 86400;
-        initialKeyPrice = 1 ether;
     }
     
 }
