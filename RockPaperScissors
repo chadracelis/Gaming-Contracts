@@ -21,19 +21,21 @@ contract RockPaperScissors {
     uint value;
   }
   
+  uint public gameId = 1;
+   
   mapping(uint => Game) public games;
   mapping(uint => mapping(address => Move)) public moves;
+  // Left to Right -> Map uint of Game.id for address of player for Move struct
   mapping(uint => uint) public winningMoves;
-  uint public gameId;
   
   constructor() public {
-    winningMoves[1] = 3;
-    winningMoves[2] = 1;
-    winningMoves[3] = 2;
+    winningMoves[1] = 3; // Rock
+    winningMoves[2] = 1; // Paper
+    winningMoves[3] = 2; // Scissors
   }
   
   function createGame(address payable participant) external payable {
-    require(msg.value > 0, 'have to send some ether');
+    require(msg.value > 0, 'Must send some ether');
     address payable[] memory players = new address payable[](2);
     players[0] = msg.sender;
     players[1] = participant;
@@ -90,6 +92,7 @@ contract RockPaperScissors {
         }
         address payable winner;
         winner = winningMoves[move1.value] == move2.value ? game.players[0] : game.players[1];
+        // If winning move of move1.value matches move2.value, then player1 wins, if not player2 wins
         winner.transfer(2* game.bet);
         game.state = State.REVEALED;
     }  
