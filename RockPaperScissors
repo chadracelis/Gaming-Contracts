@@ -81,6 +81,7 @@ contract RockPaperScissors {
     require(game.state == State.COMMITED, 'Game must be in COMMITED state');
     require(msg.sender == game.players[0] || msg.sender == game.players[1], 'Can only be called by one of players');
     require(moveSender.hash == keccak256(abi.encodePacked(moveId, salt)), 'moveId does not match commitment');
+    // uint salt is an arbitrary # picked by the player to prevent prediction of hash move
     moveSender.value = moveId;
     if(move1.value != 0 
       && move2.value != 0) {
