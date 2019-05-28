@@ -2,10 +2,7 @@ pragma solidity ^0.5.4;
 
 contract Lottery {
     
-    enum State {
-        IDLE,
-        BETTING
-    }
+    enum State {IDLE, BETTING}
     
     address public admin;
     address payable[] public players;
