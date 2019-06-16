@@ -8,7 +8,7 @@ contract Lottery {
     address payable[] public players;
     State public currentState = State.IDLE;
     
-    uint public betCount;
+    uint public betCount; // Total amount of players allowed to play per bet
     uint public betSize;
     uint public houseFee;
 
