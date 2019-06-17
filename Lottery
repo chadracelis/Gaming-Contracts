@@ -1,5 +1,11 @@
 pragma solidity ^0.5.4;
 
+////////////////////////////////////////Lottery Contract//////////////////////////////////////////////////////////
+// A gambling contract where the contract owner creates a betting game with a preset of total players and bet ////
+///// value required from each player. Once the contract fulfills the amount of players for each /////////////////
+/////////////bet round, a random drawing will announced a winner to take the total value of the bet //////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 contract Lottery {
     
     enum State {IDLE, BETTING}
